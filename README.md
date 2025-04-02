@@ -1,6 +1,7 @@
 # 🕷️ Xcrap Got Scraping Client
 
 **Xcrap Got Scraping Client** is a package of the Xcrap framework that implements an HTTP client using the [Got Scraping](https://www.npmjs.com/package/got-scraping) library.
+
 ## 📦 Installation
 
 There are no secrets to installing it, just use your favorite dependency manager. Here is an example using NPM:
@@ -56,6 +57,7 @@ function randomProxy() {
 
 const client = new GotScrapingClient({ proxy: randomProxy })
 ```
+
 ### Using a custom User Agent
 
 In a client that extends `BaseClient` we can also customize the `User-Agent` of the requests. We can do this in two ways:
