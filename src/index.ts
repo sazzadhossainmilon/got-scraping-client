@@ -83,6 +83,7 @@ export class GotScrapingClient extends BaseClient<GotScrapingProxy> implements C
                     if (retryDelay !== undefined && retryDelay > 0) {
                         await delay(retryDelay)
                     }
+                    
                     return await attemptRequest(currentRetry + 1)
                 }
 
