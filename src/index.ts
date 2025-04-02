@@ -1,35 +1,14 @@
 import { ClientInterface, ClientFetchManyOptions, ClientRequestOptions, BaseClient, BaseClientOptions, FaliedAttempt, HttpResponse,InvalidStatusCodeError, defaultUserAgent, delay } from "@xcrap/core"
-import { HeaderGeneratorOptions } from "header-generator"
-import { GotScraping } from "got-scraping"
+import { ExtendedExtendOptions, GotScraping, Response } from "got-scraping"
 import { loadEsm } from "load-esm"
-
-export type GotSrapingInitOptions = {
-    headerGeneratorOptions?: HeaderGeneratorOptions
-    headers?: Record<string, any>
-    responseType?: "json" | "html"
-    http2?: boolean
-    https?: {
-        rejectUnauthorized: boolean
-        ciphers: string
-    },
-    throwHttpErrors?: boolean
-    useHeaderGenerator?: string
-    timeout?: number
-    retry?: {
-        retries: number
-        maxRetryAfter: number
-    }
-}
 
 export type GotScrapingProxy = string
 
-export type GotScrapingRequestOptions = ClientRequestOptions & GotSrapingInitOptions
+export type GotScrapingRequestOptions = ClientRequestOptions & ExtendedExtendOptions
 
 export type GotScrapingFetchManyOptions = ClientFetchManyOptions<GotScrapingRequestOptions>
 
-export type GotScrapingClientOptions = BaseClientOptions<GotScrapingProxy> & {
-    initOptions?: GotSrapingInitOptions
-}
+export type GotScrapingClientOptions = BaseClientOptions<GotScrapingProxy> & ExtendedExtendOptions
 
 export class GotScrapingClient extends BaseClient<GotScrapingProxy> implements ClientInterface {
     protected gotScrapingInstance: GotScraping | undefined
@@ -43,12 +22,11 @@ export class GotScrapingClient extends BaseClient<GotScrapingProxy> implements C
         const gotScraping: GotScraping = module.gotScraping
 
         this.gotScrapingInstance = gotScraping.extend({
+            ...this.options,
             headers: {
                 "User-Agent": this.currentUserAgent ?? defaultUserAgent
             },
-            
             proxyUrl: this.currentProxy,
-            ...this.options.initOptions,
         })
     }
 
@@ -83,7 +61,7 @@ export class GotScrapingClient extends BaseClient<GotScrapingProxy> implements C
                     },
                     proxyUrl: this.currentProxy,
                     ...gotOptions
-                })
+                }) as Response
 
                 if (!this.isSuccess(response.statusCode)) {
                     throw new InvalidStatusCodeError(response.statusCode)
