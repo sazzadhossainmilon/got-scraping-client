@@ -1,7 +1,7 @@
 {
   "name": "@xcrap/got-scraping-client",
-  "version": "0.0.1",
-  "description": "",
+  "version": "0.0.2",
+  "description": "**Xcrap Got Scraping Client** is a package of the Xcrap framework that implements an HTTP client using the [Got Scraping](https://www.npmjs.com/package/got-scraping) library.",
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
@@ -28,5 +28,13 @@
   "peerDependencies": {
     "@xcrap/core": "^0.0.3",
     "@xcrap/parser": "^0.0.2"
-  }
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Xcrap-Cloud/got-scraping-client.git"
+  },
+  "bugs": {
+    "url": "https://github.com/Xcrap-Cloud/got-scraping-client/issues"
+  },
+  "homepage": "https://github.com/Xcrap-Cloud/got-scraping-client#readme"
 }
