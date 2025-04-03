@@ -1,14 +1,20 @@
 {
   "name": "@xcrap/got-scraping-client",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "description": "**Xcrap Got Scraping Client** is a package of the Xcrap framework that implements an HTTP client using the [Got Scraping](https://www.npmjs.com/package/got-scraping) library.",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "jest",
+    "build": "rollup -c"
   },
-  "keywords": [],
-  "author": "",
-  "license": "ISC",
+  "keywords": [
+    "web scraping",
+    "xcrap",
+    "http client",
+    "got scraping"
+  ],
+  "author": "Marcuthj",
+  "license": "MIT",
   "type": "commonjs",
   "devDependencies": {
     "@rollup/plugin-commonjs": "^28.0.3",
